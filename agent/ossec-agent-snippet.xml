@@ -1,0 +1,15 @@
+<!-- osquery integration: tails the osqueryd results log (Chrome history) -->
+<wodle name="osquery">
+  <disabled>no</disabled>
+  <run_daemon>no</run_daemon>
+  <bin_path>C:\Program Files\osquery\osqueryd</bin_path>
+  <log_path>C:\Program Files\osquery\log\osqueryd.results.log</log_path>
+  <config_path>C:\Program Files\osquery\osquery.conf</config_path>
+  <add_labels>yes</add_labels>
+</wodle>
+
+<!-- Output of parse_eml.py (phishing email scan results, JSON lines) -->
+<localfile>
+  <log_format>json</log_format>
+  <location>C:\SOC\logs\phishing_email.log</location>
+</localfile>

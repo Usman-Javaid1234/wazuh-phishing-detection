@@ -1,0 +1,106 @@
+<group name="chrome_history,phishing,">
+
+  <rule id="100220" level="3">
+    <if_sid>24010</if_sid>
+    <field name="osquery.name">chrome_history_query</field>
+    <description>osquery: Chrome history query result - $(osquery.columns.url)</description>
+    <options>no_full_log</options>
+  </rule>
+
+  <rule id="100221" level="10">
+    <if_sid>100220</if_sid>
+    <field name="osquery.columns.url" type="pcre2">(?i)(login|verify|secure|account-update|signin|confirm|password|unlock)</field>
+    <description>osquery: Suspicious keyword in visited URL - possible phishing: $(osquery.columns.url)</description>
+    <mitre><id>T1566.002</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100222" level="12">
+    <if_sid>100220</if_sid>
+    <field name="osquery.columns.url" type="pcre2">(?i)\.(xyz|top|tk|click|gq|work|zip|cfd|qpon|hair|cam|site|shop)(/|$)</field>
+    <description>osquery: Visit to high-risk TLD - possible phishing domain: $(osquery.columns.url)</description>
+    <mitre><id>T1566.002</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100223" level="14">
+    <if_sid>100220</if_sid>
+    <list field="osquery.columns.domain" lookup="match_key">etc/lists/phishing-domains</list>
+    <description>osquery: URL matched known phishing domain from threat intel list: $(osquery.columns.url)</description>
+    <mitre><id>T1566.002</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100224" level="11">
+    <if_sid>100220</if_sid>
+    <field name="osquery.columns.url" type="pcre2">(?i)\.(pages\.dev|vercel\.app|replit\.app|blogspot\.com|weebly\.com|workers\.dev|framer\.(website|media))(/|$)</field>
+    <description>osquery: Visit to free-hosting/dev-platform domain commonly abused for phishing: $(osquery.columns.url)</description>
+    <mitre><id>T1566.002</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100225" level="13">
+    <if_sid>100220</if_sid>
+    <field name="osquery.columns.url" type="pcre2">(?i)(roblox|instagram|facebook|whatsapp|paypal|coinbase|metamask|trezor|bankofamerica|wellsfargo|xfinity|microsoft|office365)[^a-z0-9](?!.*\.(com|net|org)(/|\$))</field>
+    <description>osquery: Possible brand impersonation / typosquat detected in URL: $(osquery.columns.url)</description>
+    <mitre><id>T1566.002</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+</group>
+<group name="phishing_email,phishing,">
+  <rule id="100230" level="3">
+    <decoded_as>json</decoded_as>
+    <field name="name">phishing_email_scan</field>
+    <description>Email scan result: $(columns.subject) from $(columns.from)</description>
+    <options>no_full_log</options>
+  </rule>
+  <rule id="100231" level="10">
+    <if_sid>100230</if_sid>
+    <field name="columns.reply_to_mismatch">true</field>
+    <description>Phishing indicator: From/Reply-To domain mismatch - $(columns.from_domain) vs $(columns.reply_to_domain)</description>
+    <mitre><id>T1566.001</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100232" level="9">
+    <if_sid>100230</if_sid>
+    <field name="columns.subject" type="pcre2">(?i)(urgent|verify|suspend|immediately|action required|confirm your|password expir|account.*(lock|clos|disabl))</field>
+    <description>Phishing indicator: Urgency/social-engineering keyword in subject: $(columns.subject)</description>
+    <mitre><id>T1566.001</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100233" level="13">
+    <if_sid>100230</if_sid>
+    <field name="columns.has_suspicious_attachment">true</field>
+    <description>Phishing indicator: Suspicious attachment detected - $(columns.attachments)</description>
+    <mitre><id>T1566.001</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100234" level="11">
+    <if_sid>100230</if_sid>
+    <field name="columns.from_domain" type="pcre2">(?i)\.(xyz|top|tk|click|gq|work|zip|cfd|qpon|hair|cam|site|shop)$</field>
+    <description>Phishing indicator: Sender domain uses high-risk TLD: $(columns.from_domain)</description>
+    <mitre><id>T1566.001</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100235" level="14">
+    <if_sid>100230</if_sid>
+    <field name="columns.urls" type="pcre2">(?i)(ghotkshop\.com|blockwavewallet\.com|sso-security\.com|firststepfloors\.com|bankofamerica\.qpon|trezor\.win|p2pbybit-audit\.com|coinb534534\.blogspot\.com|malienterprises\.com|steamcommummity\.cam)</field>
+    <description>Phishing indicator: Email body contains known phishing domain: $(columns.urls)</description>
+    <mitre><id>T1566.001</id></mitre>
+    <group>phishing,</group>
+  </rule>
+
+  <rule id="100236" level="12">
+    <if_sid>100230</if_sid>
+    <field name="columns.from" type="pcre2">(?i)(microsoft|paypal|apple|amazon|netflix|bank|google)</field>
+    <field name="columns.from_domain" type="pcre2" negate="yes">(?i)(microsoft\.com|paypal\.com|apple\.com|amazon\.com|netflix\.com|google\.com)$</field>
+    <description>Phishing indicator: Brand name in sender display but domain doesn't match: $(columns.from)</description>
+    <mitre><id>T1566.001</id></mitre>
+    <group>phishing,</group>
+  </rule>
+</group>

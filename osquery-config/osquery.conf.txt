@@ -1,0 +1,4 @@
+"chrome_history_query": {
+  "query": "SELECT url, title, visit_count, last_visit_time, lower(substr(substr(url, instr(url,'://')+3), 1, CASE WHEN instr(substr(url, instr(url,'://')+3),'/')>0 THEN instr(substr(url, instr(url,'://')+3),'/')-1 ELSE length(substr(url, instr(url,'://')+3)) END)) AS domain FROM chrome_history;",
+  "interval": 60
+}

@@ -1,0 +1,11 @@
+<!-- In <global>: keep full event archiving OFF.
+     Enabling it filled the disk during testing and caused the indexer and manager to fail. -->
+<global>
+  <logall>no</logall>
+  <logall_json>no</logall_json>
+</global>
+
+<!-- In <ruleset>: register the phishing domain list (plain text file in etc/lists/) -->
+<ruleset>
+  <list>etc/lists/phishing-domains</list>
+</ruleset>

