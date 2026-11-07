@@ -35,34 +35,7 @@ Chrome History (SQLite)
    -> Manager rules 100230-100236 -> Dashboard alerts
 ```
 
-## Repository structure
 
-```
-.
-├── README.md
-├── agent/
-│   └── ossec-agent-snippet.xml      # osquery wodle and phishing_email.log localfile
-├── manager/
-│   └── ossec-manager-snippet.xml    # list entry and logall setting
-├── osquery/
-│   └── osquery.conf                 # Chrome history ATC and scheduled query
-├── rules/
-│   ├── local_rules.xml              # custom detection rules
-│   └── local_decoder.xml            # custom decoder
-├── lists/
-│   └── phishing-domains             # CDB list of known phishing domains
-├── scripts/
-│   └── parse_eml.py                 # .eml to JSON-lines parser
-├── samples/
-│   ├── clean_01.eml
-│   ├── phish_mismatch_01.eml
-│   ├── phish_attachment_01.eml
-│   └── phish_knowndomain_01.eml
-├── docs/
-│   ├── Task_4_Report.docx
-│   └── wazuh_phishing_rebuild_guide.md
-└── final_ossec.conf                 # full merged agent/manager reference config
-```
 
 ## Detection rules
 
